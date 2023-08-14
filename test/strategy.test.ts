@@ -25,22 +25,23 @@ describe("X% range, time-restricted", () => {
         );
     })
     
-    test("Max 1 rebalance per hour", () => {
+    test("Max 1 rebalance per hour", async () => {
         const strategy: BrokkrStrategy = new BrokkrStrategy_XRange_TimeRestriced(uniswapService)
         /*
             FYI: for tick 10000, the price of token0 in terms of token1 is approximately 1.1052
         */ 
-        strategy.onSwap(10000, 1691997410)                         // 1691997410 = 08/14/2023 @ 7:16:50am	
-        expect(strategy.onSwap(20000, 1691993809)).toThrowError()  // 1691993809 = 08/14/2023 @ 8:16:49am
+        await strategy.onSwap(10000, 1691997410)                         // 1691997410 = 08/14/2023 @ 7:16:50am	
         
         // range should be 2%
         expect(uniswapService.getPositions()[0].tickLower).toBeGreaterThan(9895)    // current tick ~ -1%
         expect(uniswapService.getPositions()[0].tickLower).toBeLessThan(9905)       // current tick ~ -1%
         expect(uniswapService.getPositions()[0].tickUpper).toBeLessThan(10105)      // current tick ~ +1%
         expect(uniswapService.getPositions()[0].tickUpper).toBeGreaterThan(10095)   // current tick ~ +1%
-
+        
+        
+        expect((await strategy.onSwap(20000, 1691993809))).toThrowError()  // 1691993809 = 08/14/2023 @ 8:16:49am
         // swap should be possible again
-        strategy.onSwap(20000, 1691993809) // 1691993810 = 08/14/2023 @ 8:16:50am
+        await strategy.onSwap(20000, 1691993809) // 1691993810 = 08/14/2023 @ 8:16:50am
     })
 
     test("Start LPing with a 2% range with 3 possible rebalances. If it reaches the 4th rebalance, set the 4th LP range to 5% with a maximum of 1 more rebalance that day ", () => {
