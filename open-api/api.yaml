@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: "Your project name"
+  description: "Description of your project."
+  version: 1.0.0
+servers:
+  - url: "todo"
+    description: "production"
+tags:
+  - name: your_project
+
+paths:
+  /hello:
+    get:
+      summary: "Get hello world info"
+      tags:
+        - your_project
+      responses:
+        '200':
+          description: "Hello world info"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/info"
+        '500':
+          description: "Something went wrong."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Error"
+
+
+components:
+  schemas:
+    info:
+      type: object
+      properties:
+        hello:
+          type: string
+          example: "World"
+          description: "description of this property"
+
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+          example: "Something went terribly wrong."
+          description: "Error details for developer."
