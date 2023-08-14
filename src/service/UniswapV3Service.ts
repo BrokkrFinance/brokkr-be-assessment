@@ -53,12 +53,6 @@ export default class UniswapV3Service {
         this.positions = this.positions.filter(position => position.tokenId !== positionId);
         return 0
     }
-    async swapAndAddLiquidity(token0: Token, token1: Token, feeAmount: FeeAmount, sqrtRatioX96: BigintIsh, liquidity: BigintIsh, tickCurrent: number, positionId: number, tickLower: number, tickUpper: number, amount0: BigNumber, amount1: BigNumber): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
-    async getLiquidity(positionId: number): Promise<number> {
-        throw new Error("Method not implemented.");
-    }
     async getPosition(positionId: number): Promise<any> {
         for(let i=0; i<this.positions.length; i++) {
             if(this.positions[i].tokenId == positionId){
