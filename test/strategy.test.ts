@@ -33,10 +33,10 @@ describe("X% range, time-restricted", () => {
         await strategy.onSwap(10000, 1691997410)                         // 1691997410 = 08/14/2023 @ 7:16:50am	
         
         // range should be 2%
-        expect(uniswapService.getPositions()[0].tickLower).toBeGreaterThan(9895)    // current tick ~ -1%
-        expect(uniswapService.getPositions()[0].tickLower).toBeLessThan(9905)       // current tick ~ -1%
-        expect(uniswapService.getPositions()[0].tickUpper).toBeLessThan(10105)      // current tick ~ +1%
-        expect(uniswapService.getPositions()[0].tickUpper).toBeGreaterThan(10095)   // current tick ~ +1%
+        expect(uniswapService.getPositions()[0].positiondata.tickLower).toBeGreaterThan(9895)    // current tick ~ -1%
+        expect(uniswapService.getPositions()[0].positiondata.tickLower).toBeLessThan(9905)       // current tick ~ -1%
+        expect(uniswapService.getPositions()[0].positiondata.tickUpper).toBeLessThan(10105)      // current tick ~ +1%
+        expect(uniswapService.getPositions()[0].positiondata.tickUpper).toBeGreaterThan(10095)   // current tick ~ +1%
         
         
         expect((await strategy.onSwap(20000, 1691993809))).toThrowError()  // 1691993809 = 08/14/2023 @ 8:16:49am
